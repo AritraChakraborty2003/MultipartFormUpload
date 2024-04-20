@@ -62,14 +62,17 @@ const Cms = () => {
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
-
+    let control = true;
     axios
       .post("http://127.0.0.1:8000/booksAPI", formData, config)
       .then((res) => {
-        console.log(formData);
-        console.log(res.data);
-        console.log(state.filename);
+        if (res.status != 200) {
+          control = false;
+        }
       });
+    if (control) {
+      document.getElementById("success").innerHTML = "Uploaded Successfully";
+    }
   };
   return (
     <>
@@ -85,6 +88,10 @@ const Cms = () => {
           </p>
         </div>
       </div>
+      <p
+        id="success"
+        className="text-4xl ml-5 overflow-hidden font-bold h-16"
+      ></p>
       <p className="mt-3 text-center font-roboto font-bold text-4xl">
         Fill the details
       </p>

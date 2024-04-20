@@ -25,10 +25,6 @@ var upload = multer({ storage: storage });
 
 const ecomBookSchema = new mongoose.Schema(
   {
-    id: {
-      type: Number,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
@@ -46,7 +42,7 @@ const ecomBookSchema = new mongoose.Schema(
       required: true,
     },
     category: {
-      type: Number,
+      type: String,
       required: true,
     },
     discount: {
@@ -92,14 +88,28 @@ app.post("/booksAPI", upload.single("file"), (req, res) => {
   let descr = req.body.description;
   let image = req.file.filename;
   let url = "http://127.0.0.1:8000/" + image;
-  console.log(author);
+
+  /* console.log(author);
   console.log(price);
   console.log(stock);
   console.log(discount);
   console.log(category);
   console.log(descr);
   console.log(image);
-  console.log(url);
+  console.log(url);*/
+
+  let NewBook = new books({
+    name: name,
+    author: author,
+    price: price,
+    stock: stock,
+    discount: discount,
+    category: category,
+    image: url,
+    descr: descr,
+  });
+
+  NewBook.save();
 });
 app.listen(8000, () => {
   console.log("Backend Connected");
